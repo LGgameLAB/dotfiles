@@ -43,5 +43,6 @@ bindkey "^E" nvim_edit
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # My very exaggerated greeter
-./greeter | lolcat
-pr -m -t -w 150 <(fortune | cowsay) <(cal --color=always) <(remindme) | lolcat
+# ./greeter | lolcat
+# pr -m -t -w 150 <(fortune | cowsay) <(cal --color=always) <(remindme) | lolcat
+zsh greeter.sh
