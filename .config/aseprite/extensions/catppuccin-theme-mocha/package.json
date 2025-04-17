@@ -1,0 +1,19 @@
+{
+  "name": "catppuccin-theme-mocha",
+  "displayName": "Catppuccin Theme Mocha",
+  "description": "Soothing pastel theme for Aseprite",
+  "version": "1.2",
+  "author": { "name": "SofyCat", "email": "", "url": "" },
+  "contributors": [
+  ],
+  "publisher": "Catppuccin",
+  "license": "MIT",
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      { "id": "Catppuccin Theme Mocha", "path": "." }
+    ]
+  }
+}
