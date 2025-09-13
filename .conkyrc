@@ -1,0 +1,32 @@
+conky.config = {
+    background = true,
+    update_interval = 1.0,
+    double_buffer = true,
+    own_window = true,
+    own_window_type = 'desktop',
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    own_window_transparent = true,
+    alignment = 'bottom_right',
+    gap_x = 20,
+    gap_y = 40,
+    use_xft = true,
+    font = "monospace: size=9",
+    default_color = "#b4befe",
+    --#a6e3a1
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_wayland = false,
+    text_buffer_size = 1024,
+    override_utf8_locale = true,
+};
+
+conky.text = [[
+${execpi 300 export PYTHONIOENCODING=utf8 && gcalcli --nocolor --conky --lineart=unicode calw | perl -CS -pe 's/\e\[[0-9;]*m//g; s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]+/  /g'}
+${time %A, %B %d %Y}
+${time %H:%M:%S}
+CPU: ${cpu}%
+😊
+]];
+
