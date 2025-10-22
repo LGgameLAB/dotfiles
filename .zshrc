@@ -1,6 +1,13 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
 #if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 #fi
@@ -15,10 +22,19 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 source ~/.commacd.sh
 source /home/luke/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-bindkey -s '^F' 'cd $(find . -type d | fzf)\n'
+bindkey -s '^F' 'cd "$(find . -type d | fzf)"\n'
 # bindkey -s '^E' 'nvim $(fzf)\n'
-bindkey -s '^A' 'systemctl start dnscrypt-proxy\n'
-bindkey -s '^U' 'sudo make clean install\n'
+
+command_center () {
+    local out=$(sh ~/command_center.sh)
+    if [[out = "1"]]; then
+        exit
+    fi
+}
+bindkey -s '^A' 'sh ~/command_center.sh\n' #'systemctl start dnscrypt-proxy\n'
+bindkey -s '^U' 'fg %1\n'
+bindkey -s '^p' 'source ~/Documents/programming/python/.env/bin/activate\n'
+bindkey -s '^b' 'uv run ~/Documents/programming/python/The-Caverns-Original/main.py\n'
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # Neovim customizations
@@ -27,6 +43,11 @@ nvim_dirfix() {
  	echo \n
 }
 alias nvim="nvim_dirfix"
+alias ls="lsd"
+alias yya="yay"
+# alias sl="sl | lolcat"
+alias cura="cura -platformtheme gtk3 &"
+alias stocks="ticker -w DKNG,COIN,FIVE,IBM,SPY"
 
 nvim_edit() {
 	local file=$(find "$(pwd)" -type f 2>/dev/null | fzf --preview 'bat --style=numbers --color=always {} 2>/dev/null')
@@ -34,8 +55,16 @@ nvim_edit() {
 	nvim "$file"
 	zle reset-prompt
 }
+vim_edit() {
+	local file=$(find "$(pwd)" -type f -not -path "*/\.*" | fzf --preview 'bat {} ')
+	# cd $(dirname "$file")
+	vim "$file"
+	zle reset-prompt
+}
 zle -N nvim_edit
+zle -N vim_edit
 bindkey "^E" nvim_edit
+bindkey "^V" vim_edit
 
 
 
@@ -45,4 +74,4 @@ bindkey "^E" nvim_edit
 # My very exaggerated greeter
 # ./greeter | lolcat
 # pr -m -t -w 150 <(fortune | cowsay) <(cal --color=always) <(remindme) | lolcat
-zsh greeter.sh
+# zsh ~/greeter.sh

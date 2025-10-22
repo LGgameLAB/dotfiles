@@ -1,0 +1,15 @@
+@theme "catppuccin-default"
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    display-drun: "apps ";
+    display-run: "   Run ";
+    display-window: " 﩯  Windows ";
+    drun-display-format: "{icon} {name}";
+    font: "Terminus 11";
+}
+
+ listview {
+	// lines: 4;
+	columns: 3;
+}
