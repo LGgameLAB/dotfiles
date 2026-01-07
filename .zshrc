@@ -22,7 +22,7 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 source ~/.commacd.sh
 source /home/luke/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-bindkey -s '^F' 'cd "$(find . -type d | fzf)"\n'
+bindkey -s '^F' 'cd "$(find . -maxdepth 10 -type d | fzf --preview "tree -L 1 {}")"\n'
 # bindkey -s '^E' 'nvim $(fzf)\n'
 
 command_center () {
@@ -35,6 +35,7 @@ bindkey -s '^A' 'sh ~/command_center.sh\n' #'systemctl start dnscrypt-proxy\n'
 bindkey -s '^U' 'fg %1\n'
 bindkey -s '^p' 'source ~/Documents/programming/python/.env/bin/activate\n'
 bindkey -s '^b' 'uv run ~/Documents/programming/python/The-Caverns-Original/main.py\n'
+bindkey -s '^G' 'grep -rnw . -e "$(gum input)" \n'
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # Neovim customizations
@@ -50,9 +51,22 @@ alias cura="cura -platformtheme gtk3 &"
 alias stocks="ticker -w DKNG,COIN,FIVE,IBM,SPY"
 
 nvim_edit() {
-	local file=$(find "$(pwd)" -type f 2>/dev/null | fzf --preview 'bat --style=numbers --color=always {} 2>/dev/null')
+	local file=$(find "$(pwd)" -maxdepth 12 -type f 2>/dev/null | fzf --preview 'bat --style=numbers --color=always {} 2>/dev/null')
 	cd $(dirname "$file")
-	nvim "$file"
+
+    mime=$(file --mime-type -b "$file")
+
+    case "$mime" in
+        application/pdf)
+            exec zathura "$file" &
+            ;;
+        image/*)
+            exec loupe "$file"
+            ;;
+        *)
+            nvim "$file"
+            ;;
+    esac
 	zle reset-prompt
 }
 vim_edit() {
