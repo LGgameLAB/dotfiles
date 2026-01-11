@@ -1,0 +1,15 @@
+/* In your CSS file */
+.align-left {
+    float: left;
+    margin-right: 15px;
+}
+.align-right {
+    float: right;
+    margin-left: 15px;
+}
+.align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
